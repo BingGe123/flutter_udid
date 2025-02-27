@@ -19,16 +19,21 @@ public class FlutterUdidPlugin: NSObject, FlutterPlugin {
   }
 
   private func getUniqueDeviceIdentifierAsString(result: FlutterResult) {
-    let bundleName = Bundle.main.infoDictionary!["CFBundleName"] as! String
-    let accountName = Bundle.main.bundleIdentifier!
+//     let bundleName = Bundle.main.infoDictionary!["CFBundleName"] as! String
+//     let accountName = Bundle.main.bundleIdentifier!
+//     var applicationUUID = SAMKeychain.password(forService: bundleName, account: accountName)
 
-    var applicationUUID = SAMKeychain.password(forService: bundleName, account: accountName)
+    let service = "DeviceID"
+    let account = "DeviceIdKey"
+    var applicationUUID = SAMKeychain.password(forService: service, account: account)
 
     if applicationUUID == nil {
       applicationUUID = (UIDevice.current.identifierForVendor?.uuidString)!
       let query = SAMKeychainQuery()
-      query.service = bundleName
-      query.account = accountName
+//       query.service = bundleName
+//       query.account = accountName
+      query.service = service
+      query.account = account
       query.password = applicationUUID
       query.synchronizationMode = SAMKeychainQuerySynchronizationMode.no
 
